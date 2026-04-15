@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const BlogPost = require("./src/models/blogPost.js");
 const path = require("path");
 const fileUpload = require("express-fileupload");
+const expressSession = require("express-session");
 
 // Controllers
 const newPostController = require("./src/controllers/newPost.js");
@@ -18,7 +19,7 @@ const loginUserController = require("./src/controllers/loginUser.js");
 // Middleware de validation
 const validateMiddleware = require("./src/middlewares/validateMiddleware.js");
 
-const app = express(); 
+const app = express();
 
 // Middleware pour gérer le téléchargement de fichiers
 app.use(fileUpload());
@@ -36,6 +37,13 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.json()); // Pour parser les données JSON
 app.use(express.urlencoded({ extended: true })); // Pour parser les données des formulaires
+app.use(
+  expressSession({
+    secret: "X9rfdsffddytsgvgbdjkdsvlfdsqwxfghjntuy",
+    resave: false,
+    saveUninitialized: false,
+  }),
+); // Configuration de la session
 
 // Route principale
 app.get("/", homeController);
@@ -46,9 +54,9 @@ app.get("/post/new", newPostController);
 app.post("/post/store", validateMiddleware, storePostController);
 
 // Route pour afficher la liste des posts
-app.get("/list", listPostController); 
+app.get("/list", listPostController);
 
-app.get("/post/:id", getPostController); 
+app.get("/post/:id", getPostController);
 
 app.get("/auth/register", newUserController);
 
