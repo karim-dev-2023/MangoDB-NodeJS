@@ -44,7 +44,7 @@ app.get("/post/new", (req, res) => {
 // Route pour créer un nouveau post
 app.post("/post/store", async (req, res) => {
   console.log("Touch");
-  
+
   const { title, body } = req.body;
 
   BlogPost.create({ title, body })
@@ -55,6 +55,17 @@ app.post("/post/store", async (req, res) => {
     .catch((err) => {
       console.error("Error creating blog post:", err);
       res.render("create", { title: "Nouveau Post - Creations" });
+    });
+});
+
+app.get("/list", (req, res) => {
+  BlogPost.find()
+    .then((blogPosts) => {
+      res.render("list", { blogPosts, title: "Liste des Posts " });
+    })
+    .catch((err) => {
+      console.error("Error fetching blog posts:", err);
+      res.render("list", { blogPosts: [], title: "Liste des Posts " });
     });
 });
 

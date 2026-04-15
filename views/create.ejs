@@ -9,7 +9,6 @@
       <div class="col-md-10 col-lg-8 col-xl-7">
         <div class="page-heading">
           <h1>New Posts</h1>
-         
         </div>
       </div>
     </div>
@@ -19,11 +18,12 @@
 <main class="mb-4">
   <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-7"> 
-        <div class="my-5"> 
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="my-5">
           <form id="contactForm" action="/post/store" method="POST">
             <!--Title-->
-            <div class="form-floating">
+            <div class="control-group">
+              <label for="title">Title</label>
               <input
                 class="form-control"
                 id="title"
@@ -32,13 +32,14 @@
                 data-sb-validations="required"
                 name="title"
               />
-              <label for="title">Title</label>
+
               <div class="invalid-feedback" data-sb-feedback="title:required">
                 A title is required.
               </div>
             </div>
-              <!--Description -->
-            <div class="form-floating">
+            <!--Description -->
+            <div class="control-group">
+              <label for="description">Description</label>
               <textarea
                 class="form-control"
                 id="description"
@@ -47,8 +48,11 @@
                 data-sb-validations="required"
                 name="body"
               ></textarea>
-              <label for="description">Description</label>
-              <div class="invalid-feedback" data-sb-feedback="description:required">
+
+              <div
+                class="invalid-feedback"
+                data-sb-feedback="description:required"
+              >
                 A description is required.
               </div>
             </div>
@@ -78,7 +82,7 @@
             </div>
             <!-- Submit Button-->
             <button
-              class="btn btn-primary text-uppercase "
+              class="btn btn-primary text-uppercase"
               id="submitButton"
               type="submit"
             >
