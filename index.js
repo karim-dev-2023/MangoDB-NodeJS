@@ -47,7 +47,7 @@ app.post("/post/store", async (req, res) => {
 
   const { title, body } = req.body;
 
-  BlogPost.create({ title, body })
+  BlogPost.create({ title, body, username: "Karim" })
     .then((blogPost) => {
       console.log("Blog post created:", blogPost);
       res.redirect("/"); // Redirige vers la page d'accueil après la création du post

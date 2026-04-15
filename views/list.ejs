@@ -30,9 +30,10 @@
                 <h3 class="post-subtitle"><%= post.body %></h3>
               </a>
 
-              <% if (post.createdAt) { %>
+              <% if (post.username) { %>
+                
                 <p class="post-meta">
-                  Posté le <%= post.createdAt.toDateString() %>
+                  Posté par <%= post.username %> le <%= post.createdAt.toDateString() %>
                 </p>
               <% } %>
             </div>
