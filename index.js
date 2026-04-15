@@ -34,6 +34,10 @@ app.get("/post", (req, res) => {
   res.render("post");
 });
 
+app.get("/post/new", (req, res) => {
+  res.render("create");
+});
+
 // Lancer le serveur
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");
