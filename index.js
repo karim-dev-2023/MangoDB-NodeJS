@@ -12,6 +12,8 @@ const listPostController = require("./src/controllers/listPost.js");
 const getPostController = require("./src/controllers/getPost.js");
 const newUserController = require("./src/controllers/newUser.js");
 const storeUserController = require("./src/controllers/storeUser.js");
+const loginController = require("./src/controllers/login.js");
+const loginUserController = require("./src/controllers/loginUser.js");
 
 // Middleware de validation
 const validateMiddleware = require("./src/middlewares/validateMiddleware.js");
@@ -52,6 +54,9 @@ app.get("/auth/register", newUserController);
 
 app.post("/user/register", storeUserController);
 
+app.get("/auth/login", loginController);
+
+app.post("/user/login", loginUserController);
 // Lancer le serveur
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");

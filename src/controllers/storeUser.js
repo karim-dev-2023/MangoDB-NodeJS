@@ -1,12 +1,17 @@
 const User = require("../models/User");
 
 module.exports = async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    console.log(user);
-    res.redirect("/");
-  } catch (err) {
-    console.error(err);
-    res.render("register", { error: "Erreur création utilisateur" });
-  }
+  const { username, password } = req.body;
+
+  const user = new User({ username, password });
+
+  user
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.error("Error saving user:", err);
+      return res.redirect("/auth/register");
+    });
 };
