@@ -69,13 +69,19 @@ app.get("/post/:id", getPostController);
 
 app.get("/auth/register", redirectIfAuthenticatedMiddleware, newUserController);
 
-app.post("/user/register", redirectIfAuthenticatedMiddleware, storeUserController);
+app.post(
+  "/user/register",
+  redirectIfAuthenticatedMiddleware,
+  storeUserController,
+);
 
 app.get("/auth/login", redirectIfAuthenticatedMiddleware, loginController);
 
 app.post("/user/login", redirectIfAuthenticatedMiddleware, loginUserController);
 
 app.get("/auth/logout", authMiddleware, logoutController);
+
+app.use((req, res) => res.render("notfound"));
 // Lancer le serveur
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");
