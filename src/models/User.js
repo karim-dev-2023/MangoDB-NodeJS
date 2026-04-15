@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const uniqueValidator = require("mongoose-unique-validator").default;
 
 const UserSchema = new Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  username: { type: String, required: [true, "Username is required"], unique: [true, "Username is already taken"] },
+  password: { type: String, required: [true, "Password is required"] }
 });
 
 UserSchema.plugin(uniqueValidator);

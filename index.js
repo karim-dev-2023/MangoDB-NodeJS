@@ -4,6 +4,7 @@ const BlogPost = require("./src/models/blogPost.js");
 const path = require("path");
 const fileUpload = require("express-fileupload");
 const expressSession = require("express-session");
+const flash = require("connect-flash");
 
 // Controllers
 const newPostController = require("./src/controllers/newPost.js");
@@ -54,6 +55,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(flash()); // Middleware pour les messages flash
 // Route principale
 app.get("/", homeController);
 
