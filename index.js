@@ -11,14 +11,10 @@ const storePostController = require("./src/controllers/storePost.js");
 const listPostController = require("./src/controllers/listPost.js");
 const getPostController = require("./src/controllers/getPost.js");
 
-const app = express();
+// Middleware de validation
+const validateMiddleware = require("./src/middlewares/validationMiddleware.js");
 
-const validateMiddleware = (req, res, next) => {
-  if (req.files == null || req.body.title == null || req.body.body == null) {
-    return res.redirect("/post/new");
-  }
-  next();
-};
+const app = express(); 
 
 // Middleware pour gérer le téléchargement de fichiers
 app.use(fileUpload());
@@ -36,6 +32,8 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.json()); // Pour parser les données JSON
 app.use(express.urlencoded({ extended: true })); // Pour parser les données des formulaires
+
+
 
 // Route principale
 app.get("/", homeController);
