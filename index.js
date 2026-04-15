@@ -3,7 +3,22 @@ const mongoose = require("mongoose");
 const BlogPost = require("./src/models/blogPost.js");
 const path = require("path");
 const fileUpload = require("express-fileupload");
+
+// Controllers
+const newPostController = require("./src/controllers/newPost.js");
+const homeController = require("./src/controllers/home.js");
+const storePostController = require("./src/controllers/storePost.js");
+const listPostController = require("./src/controllers/listPost.js");
+const getPostController = require("./src/controllers/getPost.js");
+
 const app = express();
+
+const validateMiddleware = (req, res, next) => {
+  if (req.files == null || req.body.title == null || req.body.body == null) {
+    return res.redirect("/post/new");
+  }
+  next();
+};
 
 // Middleware pour gérer le téléchargement de fichiers
 app.use(fileUpload());
@@ -23,86 +38,17 @@ app.use(express.json()); // Pour parser les données JSON
 app.use(express.urlencoded({ extended: true })); // Pour parser les données des formulaires
 
 // Route principale
-app.get("/", (req, res) => {
-  res.render("index");
-});
+app.get("/", homeController);
 
-// Route About
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
-// Route Contact
-app.get("/contact", (req, res) => {
-  res.render("contact");
-});
-
-// Route Post
-app.get("/post", (req, res) => {
-  res.render("post");
-});
-
-app.get("/post/new", (req, res) => {
-  res.render("create");
-});
+app.get("/post/new", newPostController);
 
 // Route pour créer un nouveau post avec gestion de l'upload d'image
-app.post("/post/store", (req, res) => {
-  const { title, body } = req.body;
-
-  if (!title || !body) {
-    return res.status(400).json({ error: "Title and body are required" });
-  }
-
-  const image = req.files && req.files.image ? req.files.image.name : null;
-
-  image &&
-    req.files.image.mv(path.join(__dirname, "public/images", image), (err) => {
-      if (err) {
-        console.error("Error uploading image:", err);
-      } else {
-        console.log("Image uploaded successfully");
-        // create blog post after image upload
-        BlogPost.create({ title, body, username: "Karim", image })
-          .then((blogPost) => {
-            console.log("Blog post created:", blogPost);
-            res.redirect("/");
-          })
-          .catch((err) => {
-            console.error("Error creating blog post:", err);
-            res.render("create", { title: "Nouveau Post - Création" });
-          });
-      }
-    });
-});
+app.post("/post/store", validateMiddleware, storePostController);
 
 // Route pour afficher la liste des posts
-app.get("/list", (req, res) => {
-  BlogPost.find()
-    .then((blogPosts) => {
-      res.render("list", { blogPosts, title: "Liste des Posts " });
-    })
-    .catch((err) => {
-      console.error("Error fetching blog posts:", err);
-      res.render("list", { blogPosts: [], title: "Liste des Posts " });
-    });
-});
+app.get("/list", listPostController); 
 
-app.get("/post/:id", (req, res) => {
-  const postId = req.params.id;
-
-  BlogPost.findById(postId)
-    .then((blogPost) => {
-      if (!blogPost) {
-        return res.status(404).render("404");
-      }
-      res.render("post", { blogPost, title: blogPost.title });
-    })
-    .catch((err) => {
-      console.error("Error fetching blog post:", err);
-      res.status(500).render("500");
-    });
-});
+app.get("/post/:id", getPostController); 
 
 // Lancer le serveur
 app.listen(3000, () => {
