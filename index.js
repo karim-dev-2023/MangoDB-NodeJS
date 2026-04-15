@@ -15,6 +15,7 @@ const newUserController = require("./src/controllers/newUser.js");
 const storeUserController = require("./src/controllers/storeUser.js");
 const loginController = require("./src/controllers/login.js");
 const loginUserController = require("./src/controllers/loginUser.js");
+const logoutController = require("./src/controllers/logout.js");
 
 // Middleware de validation
 const validateMiddleware = require("./src/middlewares/validateMiddleware.js");
@@ -47,6 +48,12 @@ app.use(
   }),
 ); // Configuration de la session
 
+global.loggedIn = null;
+app.use((req, res, next) => {
+  global.loggedIn = req.session.userId || null;
+  next();
+});
+
 // Route principale
 app.get("/", homeController);
 
@@ -67,6 +74,8 @@ app.post("/user/register", redirectIfAuthenticatedMiddleware, storeUserControlle
 app.get("/auth/login", redirectIfAuthenticatedMiddleware, loginController);
 
 app.post("/user/login", redirectIfAuthenticatedMiddleware, loginUserController);
+
+app.get("/auth/logout", authMiddleware, logoutController);
 // Lancer le serveur
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");
