@@ -10,9 +10,10 @@ const homeController = require("./src/controllers/home.js");
 const storePostController = require("./src/controllers/storePost.js");
 const listPostController = require("./src/controllers/listPost.js");
 const getPostController = require("./src/controllers/getPost.js");
+const newUserController = require("./src/controllers/newUser.js");
 
 // Middleware de validation
-const validateMiddleware = require("./src/middlewares/validationMiddleware.js");
+const validateMiddleware = require("./src/middlewares/validateMiddleware.js");
 
 const app = express(); 
 
@@ -33,8 +34,6 @@ app.use(express.static("public"));
 app.use(express.json()); // Pour parser les données JSON
 app.use(express.urlencoded({ extended: true })); // Pour parser les données des formulaires
 
-
-
 // Route principale
 app.get("/", homeController);
 
@@ -47,6 +46,8 @@ app.post("/post/store", validateMiddleware, storePostController);
 app.get("/list", listPostController); 
 
 app.get("/post/:id", getPostController); 
+
+app.get("/auth/register", newUserController);
 
 // Lancer le serveur
 app.listen(3000, () => {
