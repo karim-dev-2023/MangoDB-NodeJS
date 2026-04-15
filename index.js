@@ -18,6 +18,8 @@ const loginUserController = require("./src/controllers/loginUser.js");
 
 // Middleware de validation
 const validateMiddleware = require("./src/middlewares/validateMiddleware.js");
+const authMiddleware = require("./src/middlewares/authMiddleware.js");
+const redirectIfAuthenticatedMiddleware = require("./src/middlewares/redirectIfAuthenticatedMiddleware.js");
 
 const app = express();
 
@@ -48,7 +50,7 @@ app.use(
 // Route principale
 app.get("/", homeController);
 
-app.get("/post/new", newPostController);
+app.get("/post/new", authMiddleware, newPostController);
 
 // Route pour créer un nouveau post avec gestion de l'upload d'image
 app.post("/post/store", validateMiddleware, storePostController);
@@ -58,13 +60,13 @@ app.get("/list", listPostController);
 
 app.get("/post/:id", getPostController);
 
-app.get("/auth/register", newUserController);
+app.get("/auth/register", redirectIfAuthenticatedMiddleware, newUserController);
 
-app.post("/user/register", storeUserController);
+app.post("/user/register", redirectIfAuthenticatedMiddleware, storeUserController);
 
-app.get("/auth/login", loginController);
+app.get("/auth/login", redirectIfAuthenticatedMiddleware, loginController);
 
-app.post("/user/login", loginUserController);
+app.post("/user/login", redirectIfAuthenticatedMiddleware, loginUserController);
 // Lancer le serveur
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");
