@@ -58,6 +58,7 @@ app.post("/post/store", async (req, res) => {
     });
 });
 
+// Route pour afficher la liste des posts
 app.get("/list", (req, res) => {
   BlogPost.find()
     .then((blogPosts) => {
@@ -66,6 +67,22 @@ app.get("/list", (req, res) => {
     .catch((err) => {
       console.error("Error fetching blog posts:", err);
       res.render("list", { blogPosts: [], title: "Liste des Posts " });
+    });
+});
+
+app.get("/post/:id", (req, res) => {
+  const postId = req.params.id;
+
+  BlogPost.findById(postId)
+    .then((blogPost) => {
+      if (!blogPost) {
+        return res.status(404).render("404");
+      }
+      res.render("post", { blogPost, title: blogPost.title });
+    })
+    .catch((err) => {
+      console.error("Error fetching blog post:", err);
+      res.status(500).render("500");
     });
 });
 
