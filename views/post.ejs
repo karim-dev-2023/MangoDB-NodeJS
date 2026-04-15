@@ -1,18 +1,18 @@
 <%- include('layouts/header') %> <%- include('layouts/navbar') %>
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('/assets/img/post-bg.jpg')">
+<header
+  class="masthead"
+  style="<%= blogPost.image ? `background-image: url(/images/${blogPost.image})` : '' %>"
+>
   <div class="overlay"></div>
 
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-
         <div class="post-heading text-white">
           <h1><%= blogPost.title %></h1>
 
-          <h2 class="subheading">
-            <%= blogPost.body %>
-          </h2>
+          <h2 class="subheading"><%= blogPost.body %></h2>
 
           <span class="meta">
             Posted by
@@ -20,7 +20,6 @@
             on August 24, 2019
           </span>
         </div>
-
       </div>
     </div>
   </div>
@@ -29,9 +28,7 @@
 <article class="mb-4">
   <div class="container">
     <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <%= blogPost.body %>
-      </div>
+      <div class="col-lg-8 col-md-10 mx-auto"><%= blogPost.body %></div> 
     </div>
   </div>
 </article>
