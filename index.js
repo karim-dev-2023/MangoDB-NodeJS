@@ -11,6 +11,7 @@ const storePostController = require("./src/controllers/storePost.js");
 const listPostController = require("./src/controllers/listPost.js");
 const getPostController = require("./src/controllers/getPost.js");
 const newUserController = require("./src/controllers/newUser.js");
+const storeUserController = require("./src/controllers/storeUser.js");
 
 // Middleware de validation
 const validateMiddleware = require("./src/middlewares/validateMiddleware.js");
@@ -48,6 +49,8 @@ app.get("/list", listPostController);
 app.get("/post/:id", getPostController); 
 
 app.get("/auth/register", newUserController);
+
+app.post("/user/register", storeUserController);
 
 // Lancer le serveur
 app.listen(3000, () => {
