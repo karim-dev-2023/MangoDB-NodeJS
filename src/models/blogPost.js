@@ -9,6 +9,7 @@ const BlogPostSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  image: String, // Champ pour stocker le chemin de l'image
 });
 
 const BlogPost = mongoose.model('BlogPost', BlogPostSchema);

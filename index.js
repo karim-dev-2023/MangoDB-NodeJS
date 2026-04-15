@@ -1,7 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const BlogPost = require("./src/models/blogPost.js");
+const path = require("path");
+const fileUpload = require("express-fileupload");
 const app = express();
+
+// Middleware pour gérer le téléchargement de fichiers
+app.use(fileUpload());
 
 // Connexion à MongoDB
 mongoose
@@ -41,20 +46,33 @@ app.get("/post/new", (req, res) => {
   res.render("create");
 });
 
-// Route pour créer un nouveau post
-app.post("/post/store", async (req, res) => {
-  console.log("Touch");
-
+// Route pour créer un nouveau post avec gestion de l'upload d'image
+app.post("/post/store", (req, res) => {
   const { title, body } = req.body;
 
-  BlogPost.create({ title, body, username: "Karim" })
-    .then((blogPost) => {
-      console.log("Blog post created:", blogPost);
-      res.redirect("/"); // Redirige vers la page d'accueil après la création du post
-    })
-    .catch((err) => {
-      console.error("Error creating blog post:", err);
-      res.render("create", { title: "Nouveau Post - Creations" });
+  if (!title || !body) {
+    return res.status(400).json({ error: "Title and body are required" });
+  }
+
+  const image = req.files && req.files.image ? req.files.image.name : null;
+
+  image &&
+    req.files.image.mv(path.join(__dirname, "public/images", image), (err) => {
+      if (err) {
+        console.error("Error uploading image:", err);
+      } else {
+        console.log("Image uploaded successfully");
+        // create blog post after image upload
+        BlogPost.create({ title, body, username: "Karim", image })
+          .then((blogPost) => {
+            console.log("Blog post created:", blogPost);
+            res.redirect("/");
+          })
+          .catch((err) => {
+            console.error("Error creating blog post:", err);
+            res.render("create", { title: "Nouveau Post - Création" });
+          });
+      }
     });
 });
 
