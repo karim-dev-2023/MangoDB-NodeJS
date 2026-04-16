@@ -5,7 +5,11 @@ module.exports = (req, res) => {
   const { title, body } = req.body;
 
   if (!title || !body) {
-    return res.status(400).json({ error: "Title and body are required" });
+    const validationErrors = [];
+    if (!title) validationErrors.push("Title is required");
+    if (!body) validationErrors.push("Body is required");
+    req.flash("validationErrors", validationErrors);
+     return res.redirect("/post/new");
   }
 
   const image = req.files && req.files.image ? req.files.image.name : null;

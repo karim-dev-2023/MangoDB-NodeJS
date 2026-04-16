@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 const BlogPostSchema = new Schema({
-  title: String,
-  body: String,
+  title: { type: String, required: [true, "Title is required"] },
+  body: { type: String, required: [true, "Body is required"] },
   username: String,
   createdAt: {
     type: Date,
@@ -12,6 +12,6 @@ const BlogPostSchema = new Schema({
   image: String, // Champ pour stocker le chemin de l'image
 });
 
-const BlogPost = mongoose.model('BlogPost', BlogPostSchema);
+const BlogPost = mongoose.model("BlogPost", BlogPostSchema);
 
 module.exports = BlogPost;

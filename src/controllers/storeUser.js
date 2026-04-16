@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
       const validationErrors = Object.keys(err.errors).map((key) => err.errors[key].message);
       // req.session.validationErrors = validationErrors;
       req.flash("validationErrors", validationErrors);
+      req.flash("data", req.body);
       return res.redirect("/auth/register");
     });
 };

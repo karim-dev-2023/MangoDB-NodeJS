@@ -17,6 +17,7 @@ const storeUserController = require("./src/controllers/storeUser.js");
 const loginController = require("./src/controllers/login.js");
 const loginUserController = require("./src/controllers/loginUser.js");
 const logoutController = require("./src/controllers/logout.js");
+require("dotenv").config();
 
 // Middleware de validation
 const validateMiddleware = require("./src/middlewares/validateMiddleware.js");
@@ -43,7 +44,7 @@ app.use(express.json()); // Pour parser les données JSON
 app.use(express.urlencoded({ extended: true })); // Pour parser les données des formulaires
 app.use(
   expressSession({
-    secret: "X9rfdsffddytsgvgbdjkdsvlfdsqwxfghjntuy",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   }),
@@ -62,7 +63,7 @@ app.get("/", homeController);
 app.get("/post/new", authMiddleware, newPostController);
 
 // Route pour créer un nouveau post avec gestion de l'upload d'image
-app.post("/post/store", validateMiddleware, storePostController);
+app.post("/post/store", storePostController, validateMiddleware);
 
 // Route pour afficher la liste des posts
 app.get("/list", listPostController);
