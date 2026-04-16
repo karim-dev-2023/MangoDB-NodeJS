@@ -4,7 +4,12 @@ const Schema = mongoose.Schema;
 const BlogPostSchema = new Schema({
   title: { type: String, required: [true, "Title is required"] },
   body: { type: String, required: [true, "Body is required"] },
-  username: String,
+  // username: String,
+  userid:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now,

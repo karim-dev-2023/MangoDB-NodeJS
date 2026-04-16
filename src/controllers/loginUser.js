@@ -6,12 +6,18 @@ module.exports = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
+
+    if (!user) {
+      req.flash("validationErrors", ["Invalid username or password"]);
+      req.flash("formData", { username });
+      return res.redirect("/auth/login");
+    }
+
     const same = await bcrypt.compare(password, user.password);
 
-    if (!user || !same) {
-      const validationErrors = ["Invalid username or password"];
-      req.flash("validationErrors", validationErrors);
-      req.flash("formData", { username, password });
+    if (!same) {
+      req.flash("validationErrors", ["Invalid username or password"]);
+      req.flash("formData", { username });
       return res.redirect("/auth/login");
     }
 

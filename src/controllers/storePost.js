@@ -23,7 +23,7 @@ module.exports = (req, res) => {
           return res.render("create", { title: "Nouveau Post - Création" });
         }
 
-        BlogPost.create({ title, body, username: "Karim", image })
+        BlogPost.create({ title, body, userid: req.session.userId, image })
           .then((blogPost) => {
             console.log("Blog post created:", blogPost);
             res.redirect("/");
@@ -35,7 +35,7 @@ module.exports = (req, res) => {
       }
     );
   } else {
-    BlogPost.create({ title, body, username: "Karim", image: null })
+    BlogPost.create({ title, body, userid: req.session.userId, image: null })
       .then((blogPost) => {
         console.log("Blog post created:", blogPost);
         res.redirect("/");
