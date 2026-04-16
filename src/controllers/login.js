@@ -1,3 +1,14 @@
 module.exports = (req, res) => {
-    res.render("login");
+    var username = "";
+    var password = "";
+    const data = req.flash("formData")[0];
+    if (typeof data !== "undefined") {
+        username = data.username;
+        password = data.password;
+    }
+    res.render("login", {
+        errors: req.flash("validationErrors") || [],
+        username: username,
+        password: password
+    });
 }
