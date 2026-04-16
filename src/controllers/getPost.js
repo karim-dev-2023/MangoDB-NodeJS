@@ -2,7 +2,7 @@ const BlogPost = require("../models/blogPost.js");
 module.exports = (req, res) => {
   const postId = req.params.id;
 
-  BlogPost.findById(postId)
+  BlogPost.findById(postId).populate("userid")
     .then((blogPost) => {
       if (!blogPost) {
         return res.status(404).render("404");

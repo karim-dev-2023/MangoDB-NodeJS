@@ -14,11 +14,13 @@
 
           <h2 class="subheading"><%= blogPost.body %></h2>
 
-          <span class="meta">
-            Posted by
-            <a href="#">Start Bootstrap</a>
-            on August 24, 2019
-          </span>
+          <% if (blogPost.userid) { %>
+            <span class="meta">
+              Posted by
+              <a href="#"><%= blogPost.userid.username %></a>
+              on <%= blogPost.createdAt.toDateString() %>
+            </span>
+          <% } %>
         </div>
       </div>
     </div>
