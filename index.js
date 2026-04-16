@@ -30,8 +30,12 @@ const app = express();
 app.use(fileUpload());
 
 // Connexion à MongoDB
+// mongoose
+//   .connect("mongodb://127.0.0.1:27017/my_blog")
+//   .then(() => console.log("Connexion MongoDB réussie"))
+//   .catch((err) => console.error("Erreur de connexion à MongoDB:", err));
 mongoose
-  .connect("mongodb://127.0.0.1:27017/my_blog")
+  .connect("mongodb+srv://mn_db_user:1844@cluster0.bhix0hm.mongodb.net/my_blog")
   .then(() => console.log("Connexion MongoDB réussie"))
   .catch((err) => console.error("Erreur de connexion à MongoDB:", err));
 
